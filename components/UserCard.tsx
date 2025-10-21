@@ -159,7 +159,6 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
         const dataToSave = {
             ...formData,
             user_id: data.id,
-            is_complete: isFinal,
         };
 
         const { error } = await (profileData
@@ -192,7 +191,6 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
         const dataToSave = {
             ...formData,
             user_id: data.id,
-            is_complete: isFinal,
         };
 
         const { error } = await (questionnaireData

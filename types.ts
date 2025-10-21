@@ -16,7 +16,6 @@ export interface WellnessProfileData {
     id?: number;
     user_id: number;
     created_at?: string;
-    is_complete?: boolean;
     
     // Metas
     goals?: string[];
@@ -50,7 +49,6 @@ export interface WellnessQuestionnaireData {
     id?: number;
     user_id: number;
     created_at?: string;
-    is_complete?: boolean;
 
     // Objetivo - Conectar
     clothing_size?: string;
