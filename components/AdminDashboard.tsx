@@ -5,6 +5,7 @@ import UserCard from './UserCard';
 import AddUserForm from './AddUserForm';
 import DashboardMetrics from './DashboardMetrics';
 import { PlusIcon } from './icons/FabIcon';
+import HerbalifeLogo from './icons/HerbalifeLogo';
 
 const AdminDashboard: React.FC = () => {
     const [registrations, setRegistrations] = useState<BmiData[]>([]);
@@ -148,9 +149,12 @@ const AdminDashboard: React.FC = () => {
                         Cerrar Sesión
                     </button>
                 </div>
-                <div className="mt-6 text-center md:text-left">
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Panel de Control</h1>
-                    <p className="text-gray-600 mt-2">Gestiona tus participantes y visualiza tu progreso.</p>
+                <div className="mt-6 flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+                    <HerbalifeLogo className="h-20 w-auto" />
+                    <div>
+                        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Panel de Control</h1>
+                        <p className="text-gray-600 mt-2">Gestiona tus participantes y visualiza tu progreso.</p>
+                    </div>
                 </div>
             </header>
             <main className="max-w-4xl mx-auto">

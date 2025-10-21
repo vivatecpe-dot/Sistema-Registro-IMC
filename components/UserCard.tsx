@@ -156,6 +156,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
 
     const handleSaveProfile = async (formData: WellnessProfileData, isFinal: boolean) => {
         if (!data.id) return;
+        // The is_complete field is removed as it doesn't exist in the user's DB schema.
         const dataToSave = {
             ...formData,
             user_id: data.id,
@@ -179,8 +180,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
         } else {
             setProfileModalOpen(false);
             fetchProfileData();
-            if (!profileData) {
-                // FIX: Called onUpdateStatus from props instead of the undefined handleUpdateStatus.
+            if (!profileData || isFinal) {
                 onUpdateStatus(data.id, 'Evaluación Realizada');
             }
         }
@@ -188,6 +188,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
     
     const handleSaveQuestionnaire = async (formData: WellnessQuestionnaireData, isFinal: boolean) => {
         if (!data.id) return;
+        // The is_complete field is removed as it doesn't exist in the user's DB schema.
         const dataToSave = {
             ...formData,
             user_id: data.id,
@@ -213,8 +214,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
         } else {
             setQuestionnaireModalOpen(false);
             fetchQuestionnaireData();
-            if (!questionnaireData) {
-                // FIX: Called onUpdateStatus from props instead of the undefined handleUpdateStatus.
+            if (!questionnaireData || isFinal) {
                 onUpdateStatus(data.id, 'Evaluación Realizada');
             }
         }
