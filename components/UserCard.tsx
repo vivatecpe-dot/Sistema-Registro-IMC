@@ -320,11 +320,11 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
                      <div className="mb-6 pt-4 border-t">
                         <label className="block text-sm font-semibold text-gray-600 mb-2">Acciones de Evaluación</label>
                         <div className="flex flex-wrap gap-2">
-                             <button onClick={() => setProfileModalOpen(true)} className="flex items-center text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-3 rounded-lg transition-colors">
+                             <button onClick={() => setProfileModalOpen(true)} className="flex items-center text-sm bg-teal-100 hover:bg-teal-200 text-teal-800 font-medium py-2 px-3 rounded-lg transition-colors">
                                 <FileTextIcon />
                                 {profileData ? 'Ver / Editar Perfil' : 'Realizar Perfil'}
                             </button>
-                            <button onClick={() => setQuestionnaireModalOpen(true)} className="flex items-center text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-3 rounded-lg transition-colors">
+                            <button onClick={() => setQuestionnaireModalOpen(true)} className="flex items-center text-sm bg-sky-100 hover:bg-sky-200 text-sky-800 font-medium py-2 px-3 rounded-lg transition-colors">
                                 <ClipboardListIcon />
                                 {questionnaireData ? 'Ver Cuestionario' : 'Realizar Cuestionario'}
                             </button>

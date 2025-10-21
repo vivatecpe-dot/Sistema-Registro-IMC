@@ -49,7 +49,7 @@ const WellnessProfilePDF: React.FC<WellnessProfilePDFProps> = ({ data, userData 
                      <InfoRow label="Nombre" value={userData.nombre} />
                      <InfoRow label="Móvil" value={userData.telefono} />
                      <InfoRow label="Edad" value={`${userData.edad} años`} />
-                     <InfoRow label="Fecha" value={new Date(userData.created_at || '').toLocaleDateString('es-ES')} />
+                     <InfoRow label="Fecha" value={new Date(data.created_at || userData.created_at || '').toLocaleDateString('es-ES')} />
                 </div>
             </Section>
 
@@ -58,7 +58,7 @@ const WellnessProfilePDF: React.FC<WellnessProfilePDFProps> = ({ data, userData 
                  <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                     {goalsOptions.map(goal => (
                         <div key={goal.value} className="flex items-center">
-                            <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0">
+                            <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0 text-center">
                                 {data.goals?.includes(goal.value) && <span className="text-green-600 font-bold">✓</span>}
                             </span>
                             <span>{goal.label}</span>
@@ -102,13 +102,13 @@ const WellnessProfilePDF: React.FC<WellnessProfilePDFProps> = ({ data, userData 
                  <p className="font-bold mb-2 text-gray-700">¿Te gustaría tener tu desayuno ó almuerzo gratis?</p>
                   <div className="flex gap-x-8">
                       <div className="flex items-center">
-                          <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0">{data.free_meal_interest === 'SI' && '✓'}</span> SI
+                          <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0 text-center">{data.free_meal_interest === 'SI' && '✓'}</span> SI
                       </div>
                       <div className="flex items-center">
-                           <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0">{data.free_meal_interest === 'MÁS INFO' && '✓'}</span> MÁS INFO
+                           <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0 text-center">{data.free_meal_interest === 'MÁS INFO' && '✓'}</span> MÁS INFO
                       </div>
                       <div className="flex items-center">
-                           <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0">{data.free_meal_interest === 'NO' && '✓'}</span> NO
+                           <span className="inline-block w-4 h-4 border border-gray-400 rounded-sm mr-2 flex-shrink-0 text-center">{data.free_meal_interest === 'NO' && '✓'}</span> NO
                       </div>
                   </div>
             </Section>

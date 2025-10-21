@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import supabase from '../supabaseClient';
 import { BmiData } from '../types';
 import UserCard from './UserCard';
@@ -12,7 +12,12 @@ const AdminDashboard: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isAddUserFormOpen, setIsAddUserFormOpen] = useState(false);
+    
+    // Filtros
     const [activeFilter, setActiveFilter] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('all');
+
 
     const handleLogout = () => {
         sessionStorage.removeItem('isAdminAuthenticated');
@@ -116,26 +121,43 @@ const AdminDashboard: React.FC = () => {
         }
     };
 
-    const getFilteredRegistrations = () => {
-        if (activeFilter === 'all') return registrations;
-        
+    const uniqueCategories = useMemo(() => 
+        ['all', ...Array.from(new Set(registrations.map(r => r.categoria)))]
+    , [registrations]);
+
+    const filteredRegistrations = useMemo(() => {
         const today = new Date().toISOString().slice(0, 10);
 
         return registrations.filter(reg => {
-            switch (activeFilter) {
-                case 'today':
-                    return reg.created_at?.slice(0, 10) === today;
-                case 'pending':
-                    return reg.estado === 'Evaluación Agendada';
-                case 'active':
-                    return reg.estado === 'En Acompañamiento';
-                default:
-                    return true;
-            }
-        });
-    };
+            // Filtro de estado principal
+            const statusFilterMatch = (() => {
+                if (activeFilter === 'all') return true;
+                switch (activeFilter) {
+                    case 'today':
+                        return reg.created_at?.slice(0, 10) === today;
+                    case 'pending':
+                        return reg.estado === 'Evaluación Agendada';
+                    case 'active':
+                        return reg.estado === 'En Acompañamiento';
+                    default:
+                        return true;
+                }
+            })();
 
-    const filteredRegistrations = getFilteredRegistrations();
+            // Filtro por término de búsqueda (nombre)
+            const searchFilterMatch = searchTerm
+                ? reg.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+                : true;
+
+            // Filtro por categoría
+            const categoryFilterMatch = categoryFilter !== 'all'
+                ? reg.categoria === categoryFilter
+                : true;
+
+            return statusFilterMatch && searchFilterMatch && categoryFilterMatch;
+        });
+    }, [registrations, activeFilter, searchTerm, categoryFilter]);
+
 
     return (
         <div className="min-h-screen bg-gray-100 font-sans p-4 md:p-8">
@@ -163,6 +185,30 @@ const AdminDashboard: React.FC = () => {
                     onFilterChange={setActiveFilter}
                     activeFilter={activeFilter}
                 />
+
+                <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-3">Filtros de Búsqueda</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar por nombre..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                        <select
+                            value={categoryFilter}
+                            onChange={(e) => setCategoryFilter(e.target.value)}
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                        >
+                            {uniqueCategories.map(category => (
+                                <option key={category} value={category}>
+                                    {category === 'all' ? 'Todas las categorías' : category}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
                 
                 {isLoading && (
                     <div className="flex justify-center items-center py-16">
@@ -188,7 +234,7 @@ const AdminDashboard: React.FC = () => {
                         </div>
                     ) : (
                         <p className="text-gray-500 text-center mt-12">
-                            {registrations.length > 0 ? 'No hay registros que coincidan con este filtro.' : 'No hay registros todavía.'}
+                            {registrations.length > 0 ? 'No hay registros que coincidan con los filtros aplicados.' : 'No hay registros todavía.'}
                         </p>
                     )
                 )}

@@ -38,7 +38,7 @@ const WellnessQuestionnairePDF: React.FC<WellnessQuestionnairePDFProps> = ({ dat
             
             <div className="grid grid-cols-2 gap-x-8 mt-4 mb-4 pb-4 border-b">
                  <InfoRow label="Nombre" value={userData.nombre} />
-                 <InfoRow label="Fecha" value={new Date(userData.created_at || '').toLocaleDateString('es-ES')} />
+                 <InfoRow label="Fecha" value={new Date(data.created_at || userData.created_at || '').toLocaleDateString('es-ES')} />
             </div>
 
             <Section title="Objetivo - Conectar">
