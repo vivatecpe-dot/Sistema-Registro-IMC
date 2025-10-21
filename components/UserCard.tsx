@@ -167,10 +167,14 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
             : supabase.from('wellness_profiles').insert(dataToSave));
 
         if (error) {
-             if (error.code === '23505') { // Unique violation
+            if (error.code === '23505') { // Unique violation
                 alert("Hubo un error al guardar el perfil. Ya existe un perfil para este usuario. Esto puede deberse a un problema de permisos (RLS) que impide ver el perfil existente. Por favor, revisa la configuración de seguridad de tu tabla 'wellness_profiles'.");
             } else {
-                alert(`Hubo un error al guardar el perfil: ${error.message}. Revisa la consola para más detalles y verifica la configuración de tu tabla 'wellness_profiles'.`);
+                const detailedMessage = `Error al guardar el perfil: ${error.message}\n` +
+                                      `Detalles: ${error.details || 'No hay detalles adicionales.'}\n` +
+                                      `Sugerencia: ${error.hint || 'No hay sugerencias.'}\n\n` +
+                                      `Por favor, revisa la configuración de tu tabla 'wellness_profiles' en Supabase, especialmente los permisos (RLS) y los tipos de columna.`;
+                alert(detailedMessage);
             }
             console.error('Error saving profile:', error);
         } else {
@@ -201,7 +205,11 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
             } else if (error.code === '23505') {
                  alert("Hubo un error al guardar el cuestionario. Ya existe un cuestionario para este usuario. Esto puede deberse a un problema de permisos (RLS) que impide ver el cuestionario existente. Por favor, revisa la configuración de seguridad de tu tabla 'wellness_consultations'.");
             } else {
-                alert(`Hubo un error al guardar el cuestionario: ${error.message}. Revisa la consola para más detalles.`);
+                const detailedMessage = `Error al guardar el cuestionario: ${error.message}\n` +
+                                      `Detalles: ${error.details || 'No hay detalles adicionales.'}\n` +
+                                      `Sugerencia: ${error.hint || 'No hay sugerencias.'}\n\n` +
+                                      `Por favor, revisa la configuración de tu tabla 'wellness_consultations' en Supabase, especialmente los permisos (RLS) y los tipos de columna.`;
+                alert(detailedMessage);
             }
             console.error('Error saving questionnaire:', error);
         } else {
