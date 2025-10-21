@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+// FIX: Import 'createRoot' from 'react-dom/client' for React 18+
+import ReactDOM from 'react-dom/client';
 import { BmiData } from '../types';
 import { WhatsappIcon } from './icons/WhatsappIcon';
 import WellnessProfileForm from './WellnessProfileForm';
@@ -169,7 +170,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
              if (error.code === '23505') { // Unique violation
                 alert("Hubo un error al guardar el perfil. Ya existe un perfil para este usuario. Esto puede deberse a un problema de permisos (RLS) que impide ver el perfil existente. Por favor, revisa la configuración de seguridad de tu tabla 'wellness_profiles'.");
             } else {
-                alert(`Hubo un error al guardar el perfil. Revisa la consola para más detalles y verifica la configuración de tu tabla 'wellness_profiles'.`);
+                alert(`Hubo un error al guardar el perfil: ${error.message}. Revisa la consola para más detalles y verifica la configuración de tu tabla 'wellness_profiles'.`);
             }
             console.error('Error saving profile:', error);
         } else {
@@ -200,7 +201,7 @@ const UserCard: React.FC<UserCardProps> = ({ data, onDelete, onUpdateStatus, onU
             } else if (error.code === '23505') {
                  alert("Hubo un error al guardar el cuestionario. Ya existe un cuestionario para este usuario. Esto puede deberse a un problema de permisos (RLS) que impide ver el cuestionario existente. Por favor, revisa la configuración de seguridad de tu tabla 'wellness_consultations'.");
             } else {
-                alert(`Hubo un error al guardar el cuestionario. Revisa la consola para más detalles.`);
+                alert(`Hubo un error al guardar el cuestionario: ${error.message}. Revisa la consola para más detalles.`);
             }
             console.error('Error saving questionnaire:', error);
         } else {
